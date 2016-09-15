@@ -48,16 +48,38 @@ def interval():
 		for i in range(6):
 			gui.drawleglines(move.l[i].get_leglines())		
 		
-		gui.lv0.set(str(move.l[1].get_machinepoint()))
-
+		
 		for i in range(6):
 			if(move.l[i].ready):
 				move.l[i].ready=False
 				value1=-move.l[i].angle1*16000/3.0/math.pi+7500
 				value2=-move.l[i].angle2*16000/3.0/math.pi+7500
 				value3=-move.l[i].angle3*16000/3.0/math.pi+7500
-				com.write("#CANLINK.A-ID.%d-COM.1:%04X%04X%04X01%02X;" % (move.l[i].number,value1, value2, value3,move.l[i].delaytime/10))
-		
+				comout="#CANLINK.A-ID.%d-COM.1:%04X%04X%04X01%02X;" % (move.l[i].number,value1, value2, value3,move.l[i].delaytime/10)				
+				com.write(comout)
+				
+				link0=ComModule.SerialCode()
+				link0.command[0]="CANLINK"
+				link0.command[1]="A"
+				link0.option[0]="ID"
+				link0.suboption[0]="%d" % move.l[i].number
+				link0.option[1]="COM"
+				link0.suboption[1]="1"
+				link0.data[0]=(int(value1)>>8)&0xFF
+				link0.data[1]=(int(value1)>>0)&0xFF
+				link0.data[2]=(int(value2)>>8)&0xFF
+				link0.data[3]=(int(value2)>>0)&0xFF
+				link0.data[4]=(int(value3)>>8)&0xFF
+				link0.data[5]=(int(value3)>>0)&0xFF
+				link0.data[6]=0x01
+				link0.data[7]=move.l[i].delaytime/10
+				link0.data_size=8
+				print link0.encode()
+
+
+		outprint=str(move.l[1].get_machinepoint())
+		gui.lv0.set(outprint)
+
 		
 		#gui.t0.insert(Tkinter.END, com.read_all())
 		#gui.t0.insert(Tkinter.END, "rec\n")
@@ -68,7 +90,7 @@ def interval():
 		time.sleep(0.05)
 
 gui=GuiModule.GuiModule()
-com=ComModule.ComModule("serial")#serial or remote
+com=ComModule.ComModule("serial","")#serial or remote
 gamepad=GamePadModule.GamePadModule()
 move=MoveUnit.MoveUnit()
 
