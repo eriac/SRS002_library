@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
+
+## @package MoveUnit
+#  Class for Make Legs motion
+#  @date 2016/9/15
+#  @version 0.1
+
 import sys
 import Tkinter
 import math

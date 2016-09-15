@@ -1,11 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
+
+## @package ComModule
+#  Module for serial and socket communication
+#  @date 2016/9/15
+#  @version 1.0
+
 import serial
 import socket
 import threading
 from signal import signal, SIGPIPE, SIG_DFL
 
+## Class for communication
+# @code{.py}
+#com=ComModule.ComModule("serial")
+#com.write("#CANLINK;")
+#in_data=com.read_all()		
+#print in_data
+#sys.exit()
+# @endcode
 class ComModule:
+	## Initialize
+	#  @param[in] route "serial" for UART, "remote" for socket
 	def __init__(self, route):
 		self.route=route		
 		if(self.route=="serial"):
@@ -24,11 +40,17 @@ class ComModule:
 			self.sock.connect((self.host, self.port))
 		else:
 			print "No com route"
+	
+	## Send data 
+	#  @param[in] w0 string send data
 	def write(self,w0):
 		if(self.route=="serial"):
 			self.ser.write(w0)
 		elif(self.route=="remote"):
 			self.sock.send(w0)
+	
+	## Read data 
+	#  @return read all recieve buffer data
 	def read_all(self):
 		if(self.route=="serial"):
 			if  self.ser.in_waiting!=0:
@@ -37,6 +59,8 @@ class ComModule:
 				return ""
 		elif(self.route=="remote"):
 			return "remote"
+	
+	## Close port did not nessesary
 	def close(self):
 		if(self.route=="serial"):
 			self.ser.close()

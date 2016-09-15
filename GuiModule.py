@@ -1,11 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
+
+## @package GuiModule
+#  class for GUI
+#  @date 2016/9/15
+#  @version 0.1
+
 import sys
 import Tkinter
 import math
 import time
 import threading
 
+## Class for GUI
+# @code{.py}
+#link0=SerialLink()
+#gui.mainloop()
+#sys.exit()
+# @endcode
 class GuiModule:
 	def __init__(self):
 		self.root = Tkinter.Tk()

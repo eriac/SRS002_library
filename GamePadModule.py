@@ -1,10 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
+
+## @package GamePadModule
+#  Module for getting status from joypad
+#  @date 2016/9/15
+#  @version 1.0
+
 import serial
 import pygame
 from pygame.locals import *
 
+##class for getting status from joypad
+# @code{.py}
+#gamepad=GamePadModule.GamePadModule()
+#gamepad.read_status()
+#print damepad.press
+#print gamepad.axis
+# @endcode
 class GamePadModule:
+	##initilaze
+	# if gamepad connect mode="pad"
+	# if not mode="none"
 	def __init__(self):
 		self.mode=""
 		self.axis=[0.0,0.0,0.0,0.0]
@@ -22,7 +38,9 @@ class GamePadModule:
 			# 最初の一個だけ初期化
 			self.joystick = pygame.joystick.Joystick(0)
 			self.joystick.init()
-		
+	
+	##get status
+	# call before read press, button, axis	
 	def read_status(self):
 		if(self.mode=="pad"):
 			#disable out
