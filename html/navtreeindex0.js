@@ -1,7 +1,5 @@
 var NAVTREEINDEX0 =
 {
-".html":[2,0,2],
-".html":[2,0,3],
 "annotated.html":[2,0],
 "class_com_module_1_1_com_module.html":[2,0,0,0],
 "class_com_module_1_1_com_module.html#a0be0ace59618011ee29b54e9a5cdc3c8":[2,0,0,0,7],
@@ -139,10 +137,14 @@ var NAVTREEINDEX0 =
 "md__r_e_a_d_m_e.html":[0],
 "namespace_com_module.html":[1,0,0],
 "namespace_com_module.html":[2,0,0],
-"namespace_game_pad_module.html":[2,0,1],
 "namespace_game_pad_module.html":[1,0,1],
-"namespace_serial_code.html":[1,0,2],
+"namespace_game_pad_module.html":[2,0,1],
+"namespace_gui_module.html":[1,0,2],
+"namespace_gui_module.html":[2,0,2],
+"namespace_move_unit.html":[2,0,3],
+"namespace_move_unit.html":[1,0,3],
 "namespace_serial_code.html":[2,0,4],
+"namespace_serial_code.html":[1,0,4],
 "namespaces.html":[1,0],
 "pages.html":[]
 };

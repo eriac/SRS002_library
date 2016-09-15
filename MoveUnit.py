@@ -11,7 +11,15 @@ import Tkinter
 import math
 import time
 import threading
+
+## Class for Make Legs motion
+# @code{.py}
+#
+#sys.exit()
+# @endcode
 class MoveUnit:
+	##Initialize
+	#(future: read data from MoveUnit.xml)
 	def __init__(self):
 		self.l=[UnitLeg(),UnitLeg(),UnitLeg(),UnitLeg(),UnitLeg(),UnitLeg()]
 		self.l[0].side="R"
@@ -67,9 +75,12 @@ class MoveUnit:
 		self.move_z=0
 		#for slide
 		self.walkscale_z=40
-			
+	
+	##Set inter time		
 	def set_inter(self,inter):		
 		self.inter=inter
+	
+	##Culculate step
 	def tick(self):
 		if(self.mode_current=="home"):
 			if(self.mode_target=="walk"):
@@ -87,18 +98,26 @@ class MoveUnit:
 			self.tick_slide()
 		elif(self.mode_current=="rest"):
 			self.tick_rest()
+
+	## Set mode
+	#  @param mode "walk" or "slide" or "rest"
 	def set_mode(self,mode):
 		if(mode=="walk"):
 			self.mode_target="walk"
 		elif(mode=="slide"):
 			self.mode_target="slide"
 		elif(mode=="rest"):
-			self.mode_target="rest"
+			self.mode_target="rest"	
+
+	## Set params
+	#  @param value0~3 float value -1.0~+1.0 
 	def set_axis(self,value0,value1,value2,value3):
 		self.axis[0]=value0
 		self.axis[1]=value1
 		self.axis[2]=value2
-		self.axis[3]=value3	
+		self.axis[3]=value3
+
+	##Called from tick etc.
 	def convert_towalk(self, home, previous, slide_x, slide_y, rotate_z, pos_z):
 		ret=[0.0,0.0,0.0]
 		if(math.isnan(slide_x)):slide_x=previous[0]-home[0]
@@ -107,6 +126,8 @@ class MoveUnit:
 		ret[1]=home[0]*math.sin(rotate_z)+home[1]*math.cos(rotate_z)+slide_y
 		ret[2]=home[2]+pos_z
 		return ret
+
+	##Called from tick
 	def tick_walk(self):
 		if(self.count<=0):
 			NaN=float("nan")
@@ -168,6 +189,8 @@ class MoveUnit:
 				self.count=200
 		else:
 			self.count-=self.inter
+
+	##Called from tick
 	def tick_slide(self):
 		if(self.count<=0):
 			if(self.mode_target!="slide"):
@@ -186,6 +209,8 @@ class MoveUnit:
 				self.count=100
 		else:
 			self.count-=self.inter
+
+	##Called from tick
 	def tick_rest(self):
 		if(self.count<=0):
 			if(self.mode_target!="rest"):
@@ -201,6 +226,8 @@ class MoveUnit:
 				self.count=1000
 		else:
 			self.count-=self.inter
+
+	##Called from tick or etc
 	def walkmotion(self,i,slide_x,slide_y,rotate_z,pos_z):
 		self.l[i].set_machinepoint(self.convert_towalk(self.l[i].home,self.l[i].get_machinepoint(),slide_x,slide_y,rotate_z,pos_z))
 
