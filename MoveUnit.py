@@ -150,7 +150,7 @@ class MoveUnit:
 					self.count=200
 			elif(self.submode=="step2"):		
 				self.move_x=self.walkscale_x*self.axis[0]
-				self.move_y=self.walkscale_x*self.axis[1]
+				self.move_y=self.walkscale_y*self.axis[1]
 				self.move_rz=-self.walkscale_rz*self.axis[2]
 				for i in self.f_leg:
 					self.walkmotion(i,self.move_x,self.move_y,self.move_rz,self.move_z)
@@ -201,7 +201,7 @@ class MoveUnit:
 				self.count=500
 			else:
 				self.move_x=self.walkscale_x*self.axis[0]
-				self.move_y=self.walkscale_x*self.axis[1]
+				self.move_y=self.walkscale_y*self.axis[1]
 				self.move_z=self.walkscale_z*self.axis[2]
 				for i in range(6):
 					self.l[i].set_machinepoint(self.l[i].vecadd(self.l[i].home,[self.move_x,self.move_y,self.move_z]))
