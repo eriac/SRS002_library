@@ -90,7 +90,7 @@ def interval():
 		time.sleep(0.05)
 
 gui=GuiModule.GuiModule()
-com=ComModule.ComModule("serial","")#serial or remote
+com=ComModule.ComModule("none","")#serial or remote
 gamepad=GamePadModule.GamePadModule()
 move=MoveUnit.MoveUnit()
 

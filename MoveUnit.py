@@ -11,8 +11,11 @@ import Tkinter
 import math
 import time
 import threading
+import xml.etree.ElementTree as et
+import os
 
 ## Class for Make Legs motion
+#  Read params from MoveUnit.xml
 # @code{.py}
 #
 #sys.exit()
@@ -21,36 +24,22 @@ class MoveUnit:
 	##Initialize
 	#(future: read data from MoveUnit.xml)
 	def __init__(self):
+		base = os.path.dirname(os.path.abspath(__file__))
+		name = os.path.normpath(os.path.join(base, 'MoveUnit.xml'))
+		tree = et.parse(name) # 返値はElementTree型
+		elem = tree.getroot() # ルート要素を取得(Element型)
+
 		self.l=[UnitLeg(),UnitLeg(),UnitLeg(),UnitLeg(),UnitLeg(),UnitLeg()]
-		self.l[0].side="R"
-		self.l[0].origin=[30,100,0]
-		self.l[0].home=[170,180,-70]
-		self.l[0].number=1
-
-		self.l[1].side="R"
-		self.l[1].origin=[30,0,0]
-		self.l[1].home=[175,0,-70]
-		self.l[1].number=5
-
-		self.l[2].side="R"
-		self.l[2].origin=[30,-100,0]
-		self.l[2].home=[170,-180,-70]
-		self.l[2].number=3
-
-		self.l[3].side="L"
-		self.l[3].origin=[-30,100,0]
-		self.l[3].home=[-170,180,-70]
-		self.l[3].number=4
-
-		self.l[4].side="L"
-		self.l[4].origin=[-30,0,0]
-		self.l[4].home=[-175,0,-70]
-		self.l[4].number=2
-
-		self.l[5].side="L"
-		self.l[5].origin=[-30,-100,0]
-		self.l[5].home=[-170,-180,-70]
-		self.l[5].number=6
+		e=elem.findall("UnitLeg")
+		for i in range(6):
+			self.l[i].side=         e[i].attrib["Side"]
+			self.l[i].number=   int(e[i].attrib["ID"])
+			self.l[i].origin[0]=int(e[i].find("Origin").attrib["x"])
+			self.l[i].origin[1]=int(e[i].find("Origin").attrib["y"])
+			self.l[i].origin[2]=int(e[i].find("Origin").attrib["z"])
+			self.l[i].home[0]=  int(e[i].find("Home").attrib["x"])
+			self.l[i].home[1]=  int(e[i].find("Home").attrib["y"])
+			self.l[i].home[2]=  int(e[i].find("Home").attrib["z"])
 
 		#for tick
 		self.mode_current="home"
@@ -65,8 +54,8 @@ class MoveUnit:
 		self.b_side=[1,3,5]
 		self.f_leg=self.a_side
 		self.g_leg=self.b_side
-		self.walkscale_x=40
-		self.walkscale_y=20
+		self.walkscale_x=20
+		self.walkscale_y=40
 		self.walkscale_rz=0.15
 		self.walkscale_zup=40
 		self.move_x=0
